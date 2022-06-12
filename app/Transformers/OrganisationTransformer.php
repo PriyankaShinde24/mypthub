@@ -47,7 +47,7 @@ class OrganisationTransformer extends TransformerAbstract
             'id'        => $organisation->id,
             'name'      => $organisation->name,
             'trial_end' => ($organisation->subscribed == TRUE) ? 'Subscribed' : $trialEndDate->format('F j, Y, g:i a'),
-            'user'      => $organisation->owner,
+            'owner'      => $organisation->owner,
         ];
     }
 
