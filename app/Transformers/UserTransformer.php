@@ -2,8 +2,9 @@
 
 namespace App\Transformers;
 
-use App\User;
 use League\Fractal\TransformerAbstract;
+
+use App\User;
 
 class UserTransformer extends TransformerAbstract
 {
@@ -33,8 +34,8 @@ class UserTransformer extends TransformerAbstract
     public function transform(User $user): array
     {
         return [
-            'id' => $user->id,
-            'name' => $user->name,
+            'id'    => $user->id,
+            'name'  => $user->name,
         ];
     }
 }

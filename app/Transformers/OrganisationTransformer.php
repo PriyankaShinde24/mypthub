@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Transformers;
 
-use App\Organisation;
-use App\User;
 use League\Fractal\TransformerAbstract;
+
+use App\User;
+use App\Organisation;
 use Carbon\Carbon;
 use DateTime;
 
@@ -21,8 +22,18 @@ class OrganisationTransformer extends TransformerAbstract
      *
      * @var array
      */
+    //protected $defaultIncludes = [
+        // 'user'
+    // ];
     
-
+    /**
+     * List of resources possible to include
+     *
+     * @var array
+     */
+    //protected $availableIncludes = [
+        //
+    //];
     
     /**
      * @param Organisation $organisation
@@ -31,12 +42,12 @@ class OrganisationTransformer extends TransformerAbstract
      */
     public function transform(Organisation $organisation): array
     {
-        $trialEndDate = Carbon::create($organisation['trial_end']);
+        $trialEndDate = Carbon::create($organisation->trial_end);
         return [
-            'id' => $organisation->id,
-            'name' => $organisation->name,
+            'id'        => $organisation->id,
+            'name'      => $organisation->name,
             'trial_end' => ($organisation->subscribed == TRUE) ? 'Subscribed' : $trialEndDate->format('F j, Y, g:i a'),
-            'owner' => $organisation->owner,
+            'user'      => $organisation->owner,
         ];
     }
 
@@ -47,8 +58,7 @@ class OrganisationTransformer extends TransformerAbstract
      */
     public function includeOwner(Organisation $organisation)
     {
-        // $owner = $organisation->user;
-        // return $this->item($owner , new UserTransformer);
-        return $this->item($organisation->owner, new UserTransformer);
+        $user = $organisation->owner;
+        return $this->item($user, new UserTransformer, ['user']);
     }
 }
